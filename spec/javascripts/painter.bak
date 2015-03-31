@@ -1,0 +1,14 @@
+describe "Painter", ->
+  describe "#draw", ->
+    it "should throw error if there is no canvas context.", ->
+      painter = new Painter()
+      painter.draw([])
+      pointer.should.throw("Need canvas to draw.")
+    it "should throw error if a argument is not array."
+      painter = new Painter(new CanvasContext)
+      painter.draw("This is not array.")
+      painter.should.throw("Parameter must be an Array.")
+    it "should throw error if a element of array do not have x or y property.", ->
+      painter = new Painter(new CanvasContext)
+      painter.draw([{x:20, y:30}, {y: 40}, {}])
+      painter.should.throw("A element of array must have x and y property.")

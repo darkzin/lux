@@ -1,0 +1,63 @@
+#= require stroke
+
+describe "Stroke", ->
+  describe "#contructor()", ->
+    it "should set default size is 5, default color is #000000.", ->
+      stroke = new Stroke
+      stroke.size.should.equal(5)
+      stroke.color.should.equal("#000000")
+    it "should set parameters to size and color", ->
+      stroke = new Stroke({size: 6, color: "#dddddd"})
+      stroke.size.should.equal(5)
+      stroke.color.should.equal("#dddddd")
+  describe "#current", ->
+    it "should return null if Stroke has no point.", ->
+      stroke = new Stroke()
+      stroke.current().should.be.null()
+    it "should return first object when points of stroke has only one.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.current().should.equal({x: 20, y: 30})
+    it "should return current object no matter how many points are added.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.add({x: 30, y: 40})
+  describe "#next", ->
+    it "should return next object.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.add({x: 30, y: 40})
+      stroke.current().should.equal({x: 20, y: 30})
+      stroke.next().should.equal({x: 30, y: 40})
+    it "should return null if current object is last object.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.next().should.be.null()
+    it "should return null if Stroke has no point.", ->
+      stroke = new Stroke()
+      stroke.next().should.be.null()
+    it "should equal current object after function called.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.add({x: 30, y: 40})
+      stroke.next().should.equal(stroke.current())
+  describe "#prev", ->
+    it "should return prev object.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.add({x: 30, y: 40})
+      stroke.next().should.equal({x: 30, y: 40})
+      stroke.prev().should.equal({x: 20, y: 30})
+    it "should return null if current object is last object.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.prev().should.be.null()
+    it "should return null if Stroke has no point.", ->
+      stroke = new Stroke()
+      stroke.prev().should.be.null()
+    it "should equal current object after function called.", ->
+      stroke = new Stroke()
+      stroke.add({x: 20, y: 30})
+      stroke.add({x: 30, y: 40})
+      stroke.next().should.equal({x: 30, y: 40})
+      stroke.prev().should.equal(stroke.current())

@@ -1,0 +1,87 @@
+describe "test Drawing", ->
+  drawing, size, color, type
+  beforeEach ->
+    drawing = new Drawing
+    size = 5
+    color = "red"
+    stroke = new Stroke { size: 5, color: "red" }
+  describe "Stroke is working correctly.", ->
+    it "color of stroke must be red.", ->
+      expect(stroke.getColor()).toEqual("red")
+    it "size of stroke must be five.", ->
+      expect(stroke.getSize()).toEqual(5)
+    it "Current point of stroke must be null at first(Because there are no point)", ->
+      expect(stroke.currentPoint()).toBeNull()
+    it "add new point to stroke", ->
+      stroke.addPoint(20, 30)
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+    it "ignore a new point if the point is same to current point.", ->
+      stroke.addPoint(20, 30)
+      stroke.addPoint(20, 30)
+      expect(stroke.length()).toEqual(1)
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+    it "last added point is got by LastPoint()", ->
+      stroke.addPoint(20, 30)
+      stroke.addPoint(30, 40)
+      stroke.addPoint(20, 30)
+      expect(stroke.lastPoint()).toEqual({x: 20, y: 30})
+    it "get point by index.", ->
+      stroke.addPoint(20, 30)
+      stroke.addPoint(30, 40)
+      stroke.addPoint(40, 50)
+      expect(stroke.getPoint(0)).toEqual({x:20, y: 30})
+      expect(stroke.getPoint(1)).toEqual({x:30, y: 40})
+      expect(stroke.getPoint(2)).toEqual({x:40, y: 50})
+    it "We can move forward a current point.", ->
+      stroke.addPoint(20, 30)
+      stroke.addPoint(30, 40)
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+      stroke.next()
+      expect(stroke.currentPoint()).toEqual({x: 30, y: 40})
+    it "we can see a next point.", ->
+      stroke.addPoint(20, 30)
+      stroke.addPoint(30, 40)
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+      expect(stroke.nextPoint()).toEqual({x: 30, y: 40})
+    it "we cannot see a next point if current point is the last."
+      stroke.addPoint(20, 30)
+      stroke.addPoint(30, 40)
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+      stroke.next()
+      expect(stroke.currentPoint()).toEqual({x: 30, y: 40})
+      expect(stroke.prevPoint()).toBeNull()
+    it "We can move backword a current point.", ->
+      stroke.addPoint(20, 30)
+      stroke.addPoint(30, 40)
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+      stroke.next()
+      expect(stroke.currentPoint()).toEqual({x: 30, y: 40})
+      stroke.prev()
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+    it "we can see a prev point.", ->
+      stroke.addPoint(20, 30)
+      stroke.addPoint(30, 40)
+      stroke.next()
+      expect(stroke.currentPoint()).toEqual({x: 30, y: 40})
+      expect(stroke.prevPoint()).toEqual({x: 20, y: 30})
+    it "we cannot see a prev point if current point is the last."
+      stroke.addPoint(20, 30)
+      expect(stroke.currentPoint()).toEqual({x: 20, y: 30})
+      expect(stroke.prevPoint()).toBeNull()
+
+  describe "A Drawing", ->
+    beforeEach ->
+      drawing = new Drawing
+    it "can save a stroke.", ->
+      stroke = new Stroke({size: 5, color: "red"})
+      drawing.add(stroke)
+      
+  describe "A drawing start", ->
+    beforeEach ->
+      clickEvent = new Event
+      canvas = new Canvas({canvasContext: new CanvasContext})
+      drawing = new Drawing
+      controller = new Controller({drawing: drawing, canvas: canvas })
+      controller.registLitsener(element)
+    it "A touch event is occured", ->
+      

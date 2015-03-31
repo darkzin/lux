@@ -1,0 +1,24 @@
+h1#title Project Lux
+/p#log
+canvas#sketchbook 
+#menu
+  ul#select-color
+    li
+      = link_to "Red", "#sketchbook", class: "red", "data-color" => "red"
+    li
+      = link_to "Green", "#sketchbook", class: "green", "data-color" => "green"
+    li
+      = link_to "Blue", "#sketchbook", class: "blue", "data-color" => "blue"
+    li
+      = link_to "Black", "#sketchbook", class: "black", "data-color" => "black"
+    li
+      = link_to "White", "#sketchbook", class: "white", "data-color" => "white"
+  ul#select-size
+    li
+      = link_to "1", "#sketchbook", "data-size" => "1"
+    li
+      = link_to "2", "#sketchbook", "data-size" => "5"
+    li
+      = link_to "3", "#sketchbook", "data-size" => "10"
+    li
+      = link_to "record", id: "record"
