@@ -69,6 +69,7 @@
       @action = []
       @startTime = Date.now()
       @strokes = []
+      @stroke = null
 
       @canvas.bind 'click mousedown mouseup mousemove mouseleave mouseout touchstart touchmove touchend touchcancel', @onEvent
 
@@ -144,7 +145,7 @@
     # *Internal method.* Called when record button is pressed.
     startRecording: ->
       @onAir = true
-      stroke =
+      @stroke =
         startAt: Date.now() - @startTime
         color: @color
         size: parseFloat(@size)
@@ -153,41 +154,46 @@
     # ### sketch.stopRecording()
     #
     # *Internal method.* Called when record button is pressed.
-    stopRecording: (stroke) ->
+    stopRecording: ->
       @onAir = false
       @strokes.push
-        startedAt: stroke.startAt
+        startedAt: @stroke.startAt
         endedAt: Date.now() - @startTime
-        color: stroke.color
-        size: stroke.size
-        frames: stroke.frames
+        color: @stroke.color
+        size: @stroke.size
+        frames: @stroke.frames
       console.log(@strokes)
       console.log @startTime
 
     playRecording: ->
       @strokePointer = 0
+      @context.clearRect(0, 0, 1440, 500)
       @playNextRecording()
       console.log "play!!"
 
-    playNextRecording: ->
+    playNextRecording: =>
       if @strokes.length > 0 and @strokePointer < @strokes.length
         setTimeout @playNextRecording, @strokes[@strokePointer].startedAt
-        @framePointer = 0
+        framePointer = 0
+        drawStroke = @drawStroke
+        strokePointer = @strokePointer
+        strokes = @strokes
         timer = setInterval () -> 
-          @drawStroke @strokes[@strokePointer].frames, timer
+          drawStroke strokes[strokePointer].frames, framePointer, timer
         , 17
         @strokePointer++
 
-    drawStroke: (frames, timer) ->
+    drawStroke: (frames, framePointer, timer) =>
       elapsedTime = Date.now() - @startTime
-      while @framePointer < frames.length and frames[@framePointer].time < elapsedTime
-        @context.lineTo frames[@framePointer].x, frames[@framePointer].y
-        @framePointer++
+      while framePointer < frames.length and frames[framePointer].time < elapsedTime
+        @context.lineTo frames[framePointer].x, frames[framePointer].y
+        framePointer++
         exist = true
 
+      console.log("x: #{frames[framePointer].x}, y: #{frames[framePointer].y}")
       @context.stroke() if exist
 
-      if frames.length <= @framePointer
+      if frames.length <= framePointer
         clearInterval(timer)
         playNextRecording()
 

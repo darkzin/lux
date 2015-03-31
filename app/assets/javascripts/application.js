@@ -22,5 +22,6 @@ $("canvas#sketchbook").attr("height", canvasHeight);
   $("canvas#sketchbook").attr("width", $(window).width()-10);
 //$("canvas#sketchbook").height(canvasHeight).width("100%");
   sketch = $("canvas#sketchbook").sketch();
-  $("#record").on("click", function(){ sketch.playRecording() })
+  console.log(sketch);
+  $("#record").on("click", function(e){ e.preventDefault(); console.log("!!");sketch.playRecording() })
 });
