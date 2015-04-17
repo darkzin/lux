@@ -1,3 +1,81 @@
+class Stroke
+  constructor: (@startedAt, @color, @size) ->
+    @frames = []
+    @framePointer = 0
+
+  addFrame: (x, y) ->
+    @frames.push
+      time: Date.now() - @startedAt
+      x: x
+      y: y
+
+  nextFrame: ->
+    @framePointer++
+    if @frames.length <= @framePointer
+      return null
+    else
+      return @frames[@framePointer]
+
+
+class Recorder
+  constructor: ->
+    @strokes = []
+    @strokesPointer = 0
+
+  startRecording: ->
+    @strokes = [] if @strokes
+    @strokesPointer = 0
+
+  addStroke: (stroke) ->
+    @strokes.push stroke
+
+  nextStroke: ->
+    if @strokes.length <= @strokesPointer
+      return null
+    else
+      return @strokes[@strokesPointer++]
+
+  rewind: ->
+    @strokesPointer = 0
+
+class Player
+  constructor: (@el, @recorder) ->
+    @context = @el.getContext "2d"
+
+  play: ->
+    @context.clearRect(0, 0, $(@el).width(), $(@el).height())
+    @recorder.rewind()
+    @nextRecord()
+
+  nextRecord: =>
+    if stroke = @recorder.nextStroke()
+      @context.lineJoin = "round"
+      @context.lineCap = "round"
+      @context.strokestyle = stroke.color
+      @context.lineWidth = parseFloat(stroke.size)
+      @context.beginPath()
+
+      frame = stroke.nextFrame()
+      startedAt = Date.now()
+      context = @context
+      nextRecord = @nextRecord
+
+      if frame
+        context.moveTo frame.x, frame.y
+        timer = setInterval ->
+          elapsedTime = Date.now() - startedAt
+
+          while frame? and frame.time < elapsedTime
+            context.lineTo frame.x, frame.y 
+            drawingIsDone = true
+            frame = stroke.nextFrame()
+
+          context.stroke() if drawingIsDone
+
+          if frame == null
+            clearInterval timer
+            nextRecord()
+        , 17
 # # Sketch.js (v0.0.1)
 #
 # **Sketch.js** is a simple jQuery plugin for creating drawable canvases
@@ -67,9 +145,8 @@
       @tool = @options.defaultTool
       @actions = []
       @action = []
-      @startTime = Date.now()
-      @strokes = []
-      @stroke = null
+      @recorder = new Recorder()
+      @player = new Player(el, @recorder)
 
       @canvas.bind 'click mousedown mouseup mousemove mouseleave mouseout touchstart touchmove touchend touchcancel', @onEvent
 
@@ -129,7 +206,8 @@
         size: parseFloat(@size)
         events: []
       }
-
+      @stroke = new Stroke(Date.now(), @color, @size)
+      @recorder.addStroke @stroke
 
     # ### sketch.stopPainting()
     #
@@ -140,66 +218,9 @@
       @action = null
       @redraw()
     
-    # ### sketch.startRecording()
-    #
-    # *Internal method.* Called when record button is pressed.
-    startRecording: ->
-      @onAir = true
-      @stroke =
-        startAt: Date.now() - @startTime
-        color: @color
-        size: parseFloat(@size)
-        frames: []
-
-    # ### sketch.stopRecording()
-    #
-    # *Internal method.* Called when record button is pressed.
-    stopRecording: ->
-      @onAir = false
-      @strokes.push
-        startedAt: @stroke.startAt
-        endedAt: Date.now() - @startTime
-        color: @stroke.color
-        size: @stroke.size
-        frames: @stroke.frames
-      console.log(@strokes)
-      console.log @startTime
 
     playRecording: ->
-      @strokePointer = 0
-      @context.clearRect(0, 0, 1440, 500)
-      @playNextRecording()
-      console.log "play!!"
-
-    playNextRecording: =>
-      if @strokes.length > 0 and @strokePointer < @strokes.length
-        setTimeout @playNextRecording, @strokes[@strokePointer].startedAt
-        framePointer = 0
-        drawStroke = @drawStroke
-        strokePointer = @strokePointer
-        strokes = @strokes
-        timer = setInterval () -> 
-          drawStroke strokes[strokePointer].frames, framePointer, timer
-        , 17
-        @strokePointer++
-
-    drawStroke: (frames, framePointer, timer) =>
-      elapsedTime = Date.now() - @startTime
-      while framePointer < frames.length and frames[framePointer].time < elapsedTime
-        @context.lineTo frames[framePointer].x, frames[framePointer].y
-        framePointer++
-        exist = true
-
-      console.log("x: #{frames[framePointer].x}, y: #{frames[framePointer].y}")
-      @context.stroke() if exist
-
-      if frames.length <= framePointer
-        clearInterval(timer)
-        playNextRecording()
-
-
-
-    stopAll: ->
+      @player.play()
     # ### sketch.onEvent(e)
     #
     # *Internal method.* Universal event handler for the canvas. Any mouse or 
@@ -247,16 +268,13 @@
       switch e.type
         when 'mousedown', 'touchstart'
           @startPainting()
-          @stroke = @startRecording()
         when 'mouseup', 'mouseout', 'mouseleave', 'touchend', 'touchcancel'
           @stopPainting()
-          @stopRecording(@stroke)
+
+      if @painting and @stroke
+        @stroke.addFrame (e.pageX - @canvas.offset().left), (e.pageY - @canvas.offset().top)
 
       if @painting
-        @stroke.frames.push
-          time: Date.now() - @startTime
-          x: e.pageX - @canvas.offset().left
-          y: e.pageY - @canvas.offset().top
         @action.events.push
           x: e.pageX - @canvas.offset().left
           y: e.pageY - @canvas.offset().top

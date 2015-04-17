@@ -10,18 +10,21 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require device
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require notes
-//= require sketch
-// require_tree .
+//= require sketch_commander
+//= require_tree .
+//
 $(function(){
-  canvasHeight = $(window).height() - $("#title").height() - $("#menu").height();
-$("canvas#sketchbook").attr("height", canvasHeight);
-  $("canvas#sketchbook").attr("width", $(window).width()-10);
+  canvasHeight = $(window).height() - $("#title").height() - $("#menu").height() - 5;
+  $("canvas#sketchbook").attr("height", canvasHeight);
+  //alert($(window).width());
+  $("canvas#sketchbook").attr("width", $(window).width()-20);
+  //$("canvas#sketchbook").css({"width": "100%"});
+  //$("canvas#sketchbook").css({"margin": "0 auto"});
+  //alert($("canvas#sketchbook").attr("width"));
 //$("canvas#sketchbook").height(canvasHeight).width("100%");
-  sketch = $("canvas#sketchbook").sketch();
-  console.log(sketch);
-  $("#record").on("click", function(e){ e.preventDefault(); console.log("!!");sketch.playRecording() })
+  sketch = $("canvas#sketchbook").sketchCommander();
+    console.log(typeof(Media));
 });

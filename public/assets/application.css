@@ -1,0 +1,195 @@
+/*
+ * This is a manifest file that"ll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin"s vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You"re free to add application-wide styles to this file and they"ll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
+ */
+/*@import "compass";*/
+
+@import "notes";
+/* line 5, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+h1, ul, body {
+  margin: 0;
+}
+
+/* line 9, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul {
+  padding-left: 0;
+}
+
+/* line 13, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul li {
+  list-style-type: none;
+  padding-left: 0;
+  margin-right: 20px;
+  display: inline-block;
+}
+
+/* line 19, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color,
+ul#select-size {
+  list-style-type: none;
+  padding-left: 0;
+}
+/* line 23, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li,
+ul#select-size li {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+/* line 28, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li a,
+ul#select-size li a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 35, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color {
+  width: 40%;
+  float: left;
+}
+
+/* line 40, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-size {
+  width: 20%;
+  float: right;
+}
+
+/* line 45, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#navigation {
+  width: 20%;
+  float: right;
+}
+
+/* line 50, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#choose-note {
+  width: 20%;
+  float: right;
+}
+
+/* line 55, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+#menu:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* line 61, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li {
+  border: 3px solid #ddd;
+}
+/* line 63, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li a {
+  text-indent: -9999px;
+}
+/* line 64, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li a.red {
+  background-color: red;
+}
+/* line 65, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li a.green {
+  background-color: green;
+}
+/* line 66, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li a.blue {
+  background-color: blue;
+}
+/* line 67, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li a.black {
+  background-color: black;
+}
+/* line 68, /Users/changhwan/Projects/lux/app/assets/stylesheets/notes.scss */
+ul#select-color li a.white {
+  background-color: white;
+}
+/* line 1, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* line 9, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* line 15, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+/* line 21, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+a {
+  color: #000;
+}
+/* line 23, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+a:visited {
+  color: #666;
+}
+/* line 26, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+a:hover {
+  color: #fff;
+  background-color: #000;
+}
+
+/* line 33, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+/* line 38, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+#notice {
+  color: green;
+}
+
+/* line 42, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+/* line 48, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+/* line 55, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #c00;
+  color: #fff;
+}
+/* line 65, /Users/changhwan/Projects/lux/app/assets/stylesheets/scaffolds.scss */
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}

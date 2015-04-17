@@ -1,0 +1,34 @@
+#=require jquery
+#=require notebook
+#=require sinon
+
+describe "Notebook,", ->
+  beforeEach ->
+    @notebook = new Notebook
+
+  it "should raise error if call #drawNote without painter and manager.", ->
+    @notebook.drawNote.should.throw "Need painter and manager to draw note."
+
+  it "should raise error if call #drawNote without Manager.", ->
+    painter = new Painter
+    @notebook.setPainter = painter
+    @notebook.drawNote.should.throw "Need Manager to draw note."
+
+  it "should raise error if call #drawNote without Painter.", ->
+    manager = new manager
+    @notebook.setManager = manager
+    @notebook.drawNote.should.throw "Need Painter to draw note."
+
+  it "painter should call #drawNewPicture when notebook#drawNote is called.", ->
+    drawFramesSpy = sinon.spy()
+    getFramesSpy = sinon.stubs().returns [{ type: "stroke", color: "red", size: 5 }]
+    painter = { drawNewPicture: drawFramesSpy }
+    manager = { getFrames: getFramesSpy }
+    noteIndex = 0
+    @notebook.setPainter = painter
+    @notebook.setManager = manager
+    @notebook.drawNote(noteIndex)
+    getFramesSpy.calledOnce.should.be.true
+    getFramesSpy.calledBefore(drawFramesSpy).should.be.true
+    drawFramesSpy.calledOnce.should.be.true
+

@@ -1,5 +1,4 @@
 h1#title Project Lux
-/p#log
 canvas#sketchbook 
 #menu
   ul#select-color
@@ -20,5 +19,19 @@ canvas#sketchbook
       = link_to "2", "#sketchbook", "data-size" => "5"
     li
       = link_to "3", "#sketchbook", "data-size" => "10"
+  ul#navigation
     li
-      = link_to "record", "#", id: "record"
+      = link_to "py", "#sketchbook", "data-role" => "play-recording"
+    li
+      = link_to "s", "#sketchbook", "data-role" => "stop-playing"
+    li
+      = link_to "rst", "#sketchbook", "data-role" => "start-recording"
+    li
+      = link_to "rsp", "#sketchbook", "data-role" => "stop-recording"
+  ul#choose-note
+    li
+      = link_to "P", "#sketchbook", "data-role" => "prev-note"
+    li
+      = link_to "N", "#sketchbook", "data-role" => "next-note"
+    li
+      = link_to "New", "#sketchbook", "data-role" => "new-note"

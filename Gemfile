@@ -20,7 +20,7 @@ gem 'slim-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+#gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -47,8 +47,10 @@ group :development, :test do
 
   # Konacha is javascript test framework for rails. It uses mocha js, and chai js.
   gem 'konacha'
+  gem 'konacha-chai-matchers'
 
   # Konacha needs Selenium-webdriver for testing. You change driver if you want like Poltergeist.
   gem 'selenium-webdriver'
 end
 
+gem 'render_anywhere', require: false
